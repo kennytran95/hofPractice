@@ -111,7 +111,12 @@ var ninetiesKid = function(movies) {
 // runtime than your time limit.
 // timeLimit is an integer representing a number of minutes.
 var movieNight = function(movies, timeLimit) {
-
+  return _.reduce(movies, function (acc, movie) {
+    if (movie.runtime < timeLimit) {
+      acc = true;
+    }
+    return acc;
+  }, false);
 };
 
 /*
@@ -123,14 +128,23 @@ var movieNight = function(movies, timeLimit) {
 // given an array of strings, use _.map to return a new array containing all
 // strings converted to uppercase letters.
 var upperCaseFruits = function(fruits) {
-
+  return _.map(fruits, function(fruit) {
+    return fruit.toUpperCase();
+  });
 };
 
 // given an array of dessert objects, return a new array of objects
 // that have a new "glutenFree" property, with a boolean value.
 // TIP: Items that contain flour are not gluten-free.
 var glutenFree = function(desserts) {
-
+  return _.map(desserts, function(dessert) {
+    if (dessert.ingredients.indexOf('flour') === -1) {
+      dessert.glutenFree = true;
+    } else {
+      dessert.glutenFree = false;
+    }
+    return dessert;
+  });
 };
 
 // use _.map to return an array of items with their sale prices, with a new property
@@ -154,5 +168,12 @@ var glutenFree = function(desserts) {
 
 */
 var applyCoupon = function(groceries, coupon) {
-
+  return _.map(groceries, function (grocery) {
+    // console.log(grocery.price.slice(1) * 100);
+    var price = parseFloat(grocery.price.slice(1));
+    var sale = price * (1 - coupon);
+    var addDollarSign = '$' + sale;
+    grocery.salePrice = addDollarSign.slice(0, 5);
+    return grocery;
+  });
 };
